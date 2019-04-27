@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/felipeolifre/socket-chat-example/issues"
   },
-  "homepage": "https://github.com/felipeolifre/socket-chat-example#readme"
+  "homepage": "https://github.com/felipeolifre/socket-chat-example#readme",
+  "devDependencies": {
+    "prettier": "^1.17.0"
+  }
 }
