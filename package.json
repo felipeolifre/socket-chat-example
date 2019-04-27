@@ -4,6 +4,7 @@
   "description": "Chat application using Node.js and Socket.IO",
   "main": "server.js",
   "scripts": {
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,6 +22,7 @@
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
+    "nodemon": "^1.18.11",
     "prettier": "^1.17.0"
   }
 }
