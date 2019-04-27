@@ -5,10 +5,19 @@
     <link rel="stylesheet" href="/index.css" />
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form action="" id="form">
-      <input autocomplete="off" id="message" /><button>Send</button>
-    </form>
+    <div id="join">
+      <form action="" id="join-form">
+        <input autocomplete="off" id="nickname" placeholder="Nickname" /><button>
+          Join
+        </button>
+      </form>
+    </div>
+    <div id="chat" style="display: none;">
+      <ul id="messages"></ul>
+      <form action="" id="chat-form">
+        <input autocomplete="off" id="message" /><button>Send</button>
+      </form>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/index.js"></script>
   </body>

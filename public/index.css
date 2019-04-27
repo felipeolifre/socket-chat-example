@@ -5,24 +5,37 @@
 }
 body {
   font: 13px Helvetica, Arial;
+  height: 100vh;
 }
-form {
+button {
+  background: rgb(130, 224, 255);
+  border: none;
+  padding: 10px;
+}
+input {
+  border: 0;
+  padding: 10px;
+}
+#join {
+  align-items: center;
+  background: #000;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+#chat-form {
   background: #000;
   bottom: 0;
   padding: 3px;
   position: fixed;
   width: 100%;
 }
-form input {
-  border: 0;
+#chat-form input {
   margin-right: 0.5%;
-  padding: 10px;
   width: 90%;
 }
-form button {
-  background: rgb(130, 224, 255);
-  border: none;
-  padding: 10px;
+#chat-form button {
   width: 9%;
 }
 #messages {
