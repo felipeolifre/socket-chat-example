@@ -8,6 +8,7 @@ app.get('/', (req, res) => {
 
 io.on('connection', socket => {
   console.log('a user connected');
+  socket.broadcast.emit('user connection', 'Someone connected.');
 
   socket.on('chat message', message => {
     console.log(`message: ${message}`);
@@ -16,6 +17,7 @@ io.on('connection', socket => {
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
+    socket.broadcast.emit('user connection', 'Someone disconnected.');
   });
 });
 
