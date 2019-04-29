@@ -21,20 +21,21 @@ io.on('connection', socket => {
   socket.on('join', nickname => {
     console.log('a user joined');
     users.set(socket.id, nickname);
-    socket.broadcast.emit('system message', `${nickname} joined.`);
+    socket.join('general');
+    socket.to('general').emit('system message', `${nickname} joined.`);
   });
 
   socket.on('chat message', message => {
     console.log(`message: ${message}`);
     const nickname = users.get(socket.id);
-    io.emit('chat message', { nickname, message });
+    io.to('general').emit('chat message', { nickname, message });
   });
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
     const nickname = users.get(socket.id);
     users.delete(socket.id);
-    socket.broadcast.emit('system message', `${nickname} left.`);
+    socket.to('general').emit('system message', `${nickname} left.`);
   });
 });
 
