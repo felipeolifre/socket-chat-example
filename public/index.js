@@ -1,23 +1,31 @@
 const user = {};
 
-const addChatMessageToDOM = (nickname, message) => {
+const addMessageToDOM = message => {
   const listItem = document.createElement('li');
-  listItem.textContent = `${nickname}: ${message}`;
+  if (message.type == 'chat') {
+    listItem.textContent = `${message.nickname}: ${message.body}`;
+  } else if (message.type == 'system') {
+    listItem.textContent = message.body;
+    listItem.style.fontStyle = 'italic';
+  }
   document.getElementById('messages').appendChild(listItem);
 };
 
 document.addEventListener('DOMContentLoaded', () => {
   const socket = io();
+  let message = {};
 
-  socket.on('system message', message => {
-    const listItem = document.createElement('li');
-    listItem.style.fontStyle = 'italic';
-    listItem.textContent = message;
-    document.getElementById('messages').appendChild(listItem);
+  socket.on('system message', messageBody => {
+    message.type = 'system';
+    message.body = messageBody;
+    addMessageToDOM(message);
   });
 
-  socket.on('chat message', ({ nickname, message }) => {
-    addChatMessageToDOM(nickname, message);
+  socket.on('chat message', ({ nickname, messageBody }) => {
+    message.type = 'chat';
+    message.nickname = nickname;
+    message.body = messageBody;
+    addMessageToDOM(message);
   });
 
   document.getElementById('join-form').addEventListener('submit', e => {
@@ -36,9 +44,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('chat-form').addEventListener('submit', e => {
     e.preventDefault(); // Prevents page reloading.
     const messageInput = document.getElementById('message');
-    const message = messageInput.value;
-    socket.emit('chat message', message);
-    addChatMessageToDOM(user.nickname, message);
+    const messageBody = messageInput.value;
+    socket.emit('chat message', messageBody);
+
+    message.type = 'chat';
+    message.nickname = user.nickname;
+    message.body = messageBody;
+    addMessageToDOM(message);
+
     messageInput.value = '';
   });
 });
