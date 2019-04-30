@@ -1,23 +1,34 @@
 const user = {};
 
-const addChatMessageToDOM = (nickname, message) => {
+const addMessageToDOM = ({ body, nickname, type }) => {
   const listItem = document.createElement('li');
-  listItem.textContent = `${nickname}: ${message}`;
+  if (type == 'chat') {
+    listItem.textContent = `${nickname}: ${body}`;
+  } else if (type == 'system') {
+    listItem.textContent = body;
+    listItem.style.fontStyle = 'italic';
+  }
   document.getElementById('messages').appendChild(listItem);
 };
 
 document.addEventListener('DOMContentLoaded', () => {
   const socket = io();
 
-  socket.on('system message', message => {
-    const listItem = document.createElement('li');
-    listItem.style.fontStyle = 'italic';
-    listItem.textContent = message;
-    document.getElementById('messages').appendChild(listItem);
+  socket.on('system message', body => {
+    const message = {
+      type: 'system',
+      body,
+    };
+    addMessageToDOM(message);
   });
 
-  socket.on('chat message', ({ nickname, message }) => {
-    addChatMessageToDOM(nickname, message);
+  socket.on('chat message', ({ nickname, body }) => {
+    const message = {
+      type: 'chat',
+      nickname,
+      body,
+    };
+    addMessageToDOM(message);
   });
 
   document.getElementById('join-form').addEventListener('submit', e => {
@@ -36,9 +47,16 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('chat-form').addEventListener('submit', e => {
     e.preventDefault(); // Prevents page reloading.
     const messageInput = document.getElementById('message');
-    const message = messageInput.value;
-    socket.emit('chat message', message);
-    addChatMessageToDOM(user.nickname, message);
+    const messageBody = messageInput.value;
+    socket.emit('chat message', messageBody);
+
+    const message = {
+      type: 'chat',
+      nickname: user.nickname,
+      body: messageBody,
+    };
+    addMessageToDOM(message);
+
     messageInput.value = '';
   });
 });

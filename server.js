@@ -25,10 +25,10 @@ io.on('connection', socket => {
     socket.to('general').emit('system message', `${nickname} joined.`);
   });
 
-  socket.on('chat message', message => {
-    console.log(`message: ${message}`);
+  socket.on('chat message', body => {
+    console.log(`message: ${body}`);
     const nickname = users.get(socket.id);
-    socket.to('general').emit('chat message', { nickname, message });
+    socket.to('general').emit('chat message', { nickname, body });
   });
 
   socket.on('disconnect', () => {
