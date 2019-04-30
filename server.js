@@ -28,7 +28,7 @@ io.on('connection', socket => {
   socket.on('chat message', message => {
     console.log(`message: ${message}`);
     const nickname = users.get(socket.id);
-    io.to('general').emit('chat message', { nickname, message });
+    socket.to('general').emit('chat message', { nickname, message });
   });
 
   socket.on('disconnect', () => {
