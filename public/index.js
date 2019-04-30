@@ -1,3 +1,11 @@
+const user = {};
+
+const addChatMessageToDOM = (nickname, message) => {
+  const listItem = document.createElement('li');
+  listItem.textContent = `${nickname}: ${message}`;
+  document.getElementById('messages').appendChild(listItem);
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   const socket = io();
 
@@ -9,15 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   socket.on('chat message', ({ nickname, message }) => {
-    const listItem = document.createElement('li');
-    listItem.textContent = `${nickname}: ${message}`;
-    document.getElementById('messages').appendChild(listItem);
+    addChatMessageToDOM(nickname, message);
   });
 
   document.getElementById('join-form').addEventListener('submit', e => {
     e.preventDefault(); // Prevents page reloading.
     const nicknameInput = document.getElementById('nickname');
-    socket.emit('join', nicknameInput.value);
+    user.nickname = nicknameInput.value;
+    socket.emit('join', user.nickname);
     nicknameInput.value = '';
 
     const joinDiv = document.getElementById('join');
@@ -29,7 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('chat-form').addEventListener('submit', e => {
     e.preventDefault(); // Prevents page reloading.
     const messageInput = document.getElementById('message');
-    socket.emit('chat message', messageInput.value);
+    const message = messageInput.value;
+    socket.emit('chat message', message);
+    addChatMessageToDOM(user.nickname, message);
     messageInput.value = '';
   });
 });
