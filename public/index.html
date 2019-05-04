@@ -1,9 +1,19 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
   <head>
-    <title>Socket.IO chat</title>
-    <link rel="stylesheet" href="/index.css" />
+    <meta charset="utf-8" />
+
+    <title>Socket.IO Chat</title>
+    <meta
+      name="description"
+      content="Real-time chat system using Node.js and Socket.IO"
+    />
+    <meta name="author" content="Felipe Olivera" />
+
+    <link rel="stylesheet" href="styles.css" />
   </head>
+
   <body>
     <div id="join">
       <form action="" id="join-form">
@@ -12,13 +22,15 @@
         </button>
       </form>
     </div>
+
     <div id="chat" style="display: none;">
       <ul id="messages"></ul>
       <form action="" id="chat-form">
         <input autocomplete="off" id="message" /><button>Send</button>
       </form>
     </div>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/index.js"></script>
+
+    <script src="socket.io/socket.io.js"></script>
+    <script src="main.js"></script>
   </body>
 </html>
