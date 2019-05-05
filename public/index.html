@@ -30,14 +30,18 @@
     <div class="chat-container" id="chat" style="display: none;">
       <main class="chat-main">
         <ul class="message-list" id="messages"></ul>
-        <form class="chat-form" action="" id="chat-form">
-          <input class="message-input" autocomplete="off" id="message" />
-          <button>Send</button>
-        </form>
+        <div class="chat-form-container">
+          <div class="typing-status" id="typing-status"></div>
+          <form class="chat-form" action="" id="chat-form">
+            <input class="message-input" autocomplete="off" id="message-input" />
+            <button>Send</button>
+          </form>
+        </div>
       </main>
     </div>
 
     <script src="socket.io/socket.io.js"></script>
+    <script src="throttle.js"></script>
     <script src="main.js"></script>
   </body>
 </html>
