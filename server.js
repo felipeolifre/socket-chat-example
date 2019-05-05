@@ -22,7 +22,12 @@ io.on('connection', socket => {
     console.log('a user joined');
     users.set(socket.id, nickname);
     socket.join('general');
-    socket.to('general').emit('system message', `${nickname} joined.`);
+    socket.to('general').emit('message', {
+      type: 'system',
+      nickname,
+      body: 'has joined.',
+      timestamp: Date.now(),
+    });
   });
 
   socket.on('typing', status => {
@@ -31,18 +36,28 @@ io.on('connection', socket => {
     socket.to('general').emit('typing', { nickname, status });
   });
 
-  socket.on('chat message', body => {
-    console.log(`message: ${body}`);
+  socket.on('message', messageBody => {
+    console.log(`message: ${messageBody}`);
     const nickname = users.get(socket.id);
     socket.to('general').emit('typing', { nickname, status: false });
-    socket.to('general').emit('chat message', { nickname, body });
+    socket.to('general').emit('message', {
+      type: 'chat',
+      nickname,
+      body: messageBody,
+      timestamp: Date.now(),
+    });
   });
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
     const nickname = users.get(socket.id);
     users.delete(socket.id);
-    socket.to('general').emit('system message', `${nickname} left.`);
+    socket.to('general').emit('message', {
+      type: 'system',
+      nickname,
+      body: 'has left.',
+      timestamp: Date.now(),
+    });
   });
 });
 

@@ -1,13 +1,36 @@
 const user = {};
 
-const addMessageToDOM = ({ body, nickname, type }) => {
+const addMessageToDOM = ({ type, nickname, body, timestamp }) => {
   const listItem = document.createElement('li');
+  const article = document.createElement('article');
+  const header = document.createElement('header');
+  const heading = document.createElement('h1');
+  const time = document.createElement('time');
+  const paragraph = document.createElement('p');
+
+  article.classList.add('message');
   if (type === 'chat') {
-    listItem.textContent = `${nickname}: ${body}`;
+    article.classList.add('chat');
   } else if (type === 'system') {
-    listItem.textContent = body;
-    listItem.style.fontStyle = 'italic';
+    article.classList.add('system');
   }
+
+  heading.textContent = nickname;
+
+  const datetime = new Date(timestamp);
+  time.setAttribute('datetime', datetime.toISOString());
+  time.textContent = datetime.toLocaleTimeString('default', {
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+
+  paragraph.textContent = body;
+
+  header.appendChild(heading);
+  header.appendChild(time);
+  article.appendChild(header);
+  article.appendChild(paragraph);
+  listItem.appendChild(article);
   document.getElementById('messages').appendChild(listItem);
 };
 
@@ -39,11 +62,9 @@ const clearMessageInput = () => {
 document.addEventListener('DOMContentLoaded', () => {
   const socket = io();
 
-  socket.on('system message', body => {
-    const message = {
-      type: 'system',
-      body,
-    };
+  // Socket listeners.
+
+  socket.on('message', message => {
     addMessageToDOM(message);
   });
 
@@ -55,14 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  socket.on('chat message', ({ nickname, body }) => {
-    const message = {
-      type: 'chat',
-      nickname,
-      body,
-    };
-    addMessageToDOM(message);
-  });
+  // DOM listeners.
 
   document.getElementById('join-form').addEventListener('submit', event => {
     event.preventDefault(); // Prevents page reloading.
@@ -106,12 +120,13 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault(); // Prevents page reloading.
     const messageInput = document.getElementById('message-input');
     const messageBody = messageInput.value;
-    socket.emit('chat message', messageBody);
+    socket.emit('message', messageBody);
 
     const message = {
       type: 'chat',
       nickname: user.nickname,
       body: messageBody,
+      timestamp: Date.now(),
     };
     addMessageToDOM(message);
 

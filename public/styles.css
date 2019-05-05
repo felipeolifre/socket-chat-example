@@ -73,11 +73,33 @@ input {
   overflow: auto;
   padding: 0;
 }
-.message-list > li {
+.message {
+  display: flex;
+  flex-direction: column;
   padding: 8px 16px;
 }
-.message-list > li:nth-child(odd) {
+.message:hover {
   background: #eee;
+}
+.message header {
+  align-items: flex-end;
+  display: flex;
+  margin-bottom: 8px;
+}
+.message h1 {
+  font-size: 16px;
+  line-height: 1;
+  margin: 0 8px 0 0;
+}
+.message time {
+  color: #777;
+  font-size: 13px;
+}
+.message p {
+  margin: 0;
+}
+.message.system p {
+  color: #777;
 }
 .chat-form-container {
   background: #000;
