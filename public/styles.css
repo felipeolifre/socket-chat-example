@@ -1,3 +1,5 @@
+/* Global. */
+
 body {
   height: 100vh;
 }
@@ -11,6 +13,9 @@ input {
   height: 40px;
   padding: 0 16px;
 }
+
+/* Join page. */
+
 .join-container {
   align-items: center;
   background: #000;
@@ -47,6 +52,9 @@ input {
 .join-form button {
   width: 100%;
 }
+
+/* Chat page. */
+
 .chat-container {
   background: #fff;
   display: flex;
