@@ -27,11 +27,14 @@
       </main>
     </div>
 
-    <div id="chat" style="display: none;">
-      <ul id="messages"></ul>
-      <form action="" id="chat-form">
-        <input autocomplete="off" id="message" /><button>Send</button>
-      </form>
+    <div class="chat-container" id="chat" style="display: none;">
+      <main class="chat-main">
+        <ul class="message-list" id="messages"></ul>
+        <form class="chat-form" action="" id="chat-form">
+          <input class="message-input" autocomplete="off" id="message" />
+          <button>Send</button>
+        </form>
+      </main>
     </div>
 
     <script src="socket.io/socket.io.js"></script>
