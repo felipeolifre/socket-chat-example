@@ -47,28 +47,37 @@ input {
 .join-form button {
   width: 100%;
 }
-#chat-form {
-  background: #000;
-  bottom: 0;
-  padding: 3px;
-  position: fixed;
-  width: 100%;
+.chat-container {
+  background: #fff;
+  display: flex;
+  height: 100%;
 }
-#chat-form input {
-  margin-right: 0.5%;
-  width: 90%;
+.chat-main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
-#chat-form button {
-  width: 9%;
-}
-#messages {
+.message-list {
+  flex: 1;
+  height: 100%;
   list-style-type: none;
   margin: 0;
+  overflow: auto;
   padding: 0;
 }
-#messages li {
+.message-list > li {
   padding: 5px 10px;
 }
-#messages li:nth-child(odd) {
+.message-list > li:nth-child(odd) {
   background: #eee;
+}
+.chat-form {
+  background: #000;
+  display: flex;
+  padding: 8px;
+  width: 100%;
+}
+.message-input {
+  flex: 1;
+  margin-right: 8px;
 }
