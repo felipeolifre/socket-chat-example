@@ -21,7 +21,7 @@
         <h1 class="join-heading">Join to Socket.IO Chat</h1>
         <p class="join-tagline">Experience real-time like never before.</p>
         <form action="" class="join-form" id="join-form">
-          <input autocomplete="off" id="nickname" placeholder="Nickname" />
+          <input autocomplete="off" autofocus id="nickname" placeholder="Nickname" />
           <button>Join</button>
         </form>
       </main>
@@ -32,9 +32,9 @@
         <ul class="message-list" id="messages"></ul>
         <div class="chat-form-container">
           <div class="typing-status" id="typing-status"></div>
-          <form class="chat-form" action="" id="chat-form">
-            <input class="message-input" autocomplete="off" id="message-input" />
-            <button>Send</button>
+          <form action="" class="chat-form" id="chat-form">
+            <input autocomplete="off" class="message-input" id="message-input" />
+            <button disabled id="send-button">Send</button>
           </form>
         </div>
       </main>
