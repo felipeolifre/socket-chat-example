@@ -25,9 +25,16 @@ io.on('connection', socket => {
     socket.to('general').emit('system message', `${nickname} joined.`);
   });
 
+  socket.on('typing', status => {
+    console.log('a user is typing');
+    const nickname = users.get(socket.id);
+    socket.to('general').emit('typing', { nickname, status });
+  });
+
   socket.on('chat message', body => {
     console.log(`message: ${body}`);
     const nickname = users.get(socket.id);
+    socket.to('general').emit('typing', { nickname, status: false });
     socket.to('general').emit('chat message', { nickname, body });
   });
 

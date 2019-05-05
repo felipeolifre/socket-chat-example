@@ -11,6 +11,16 @@ const addMessageToDOM = ({ body, nickname, type }) => {
   document.getElementById('messages').appendChild(listItem);
 };
 
+const setTypingStatus = nickname => {
+  const typingStatus = document.getElementById('typing-status');
+  typingStatus.textContent = `${nickname} is typing...`;
+};
+
+const resetTypingStatus = () => {
+  const typingStatus = document.getElementById('typing-status');
+  typingStatus.textContent = '';
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   const socket = io();
 
@@ -20,6 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
       body,
     };
     addMessageToDOM(message);
+  });
+
+  socket.on('typing', ({ nickname, status }) => {
+    if (status) {
+      setTypingStatus(nickname);
+    } else {
+      resetTypingStatus();
+    }
   });
 
   socket.on('chat message', ({ nickname, body }) => {
@@ -44,9 +62,26 @@ document.addEventListener('DOMContentLoaded', () => {
     chatDiv.style.display = 'block';
   });
 
+  let typingTimerId;
+  document.getElementById('message-input').addEventListener(
+    'input',
+    throttle(() => {
+      socket.emit('typing', true);
+
+      if (typingTimerId) {
+        clearTimeout(typingTimerId);
+      }
+
+      typingTimerId = setTimeout(() => {
+        socket.emit('typing', false);
+        typingTimerId = null;
+      }, 1000);
+    }, 100),
+  );
+
   document.getElementById('chat-form').addEventListener('submit', e => {
     e.preventDefault(); // Prevents page reloading.
-    const messageInput = document.getElementById('message');
+    const messageInput = document.getElementById('message-input');
     const messageBody = messageInput.value;
     socket.emit('chat message', messageBody);
 
