@@ -54,6 +54,16 @@ const disableSendButton = () => {
   sendButton.setAttribute('disabled', '');
 };
 
+const enableJoinButton = () => {
+  const joinButton = document.getElementById('join-button');
+  joinButton.removeAttribute('disabled');
+};
+
+const disableJoinButton = () => {
+  const joinButton = document.getElementById('join-button');
+  joinButton.setAttribute('disabled', '');
+};
+
 const clearMessageInput = () => {
   const messageInput = document.getElementById('message-input');
   messageInput.value = '';
@@ -78,9 +88,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // DOM listeners.
 
+  document.getElementById('nickname-input').addEventListener('input', event => {
+    if (event.target.value.trim() === '') {
+      disableJoinButton();
+    } else {
+      enableJoinButton();
+    }
+  });
+
   document.getElementById('join-form').addEventListener('submit', event => {
     event.preventDefault(); // Prevents page reloading.
-    const nicknameInput = document.getElementById('nickname');
+    const nicknameInput = document.getElementById('nickname-input');
     user.nickname = nicknameInput.value;
     socket.emit('join', user.nickname);
     nicknameInput.value = '';
@@ -89,6 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
     joinDiv.style.display = 'none';
     const chatDiv = document.getElementById('chat');
     chatDiv.style.display = 'block';
+
+    disableJoinButton();
   });
 
   let typingTimerId;

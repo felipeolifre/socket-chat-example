@@ -11,6 +11,10 @@
     />
     <meta name="author" content="Felipe Olivera" />
 
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,900"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="sanitize.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -18,11 +22,16 @@
   <body>
     <div class="join-container" id="join">
       <main class="join-main">
-        <h1 class="join-heading">Join to Socket.IO Chat</h1>
+        <h1 class="join-heading">Welcome to Socket.IO Chat!</h1>
         <p class="join-tagline">Experience real-time like never before.</p>
         <form action="" class="join-form" id="join-form">
-          <input autocomplete="off" autofocus id="nickname" placeholder="Nickname" />
-          <button>Join</button>
+          <input
+            autocomplete="off"
+            autofocus
+            id="nickname-input"
+            placeholder="Nickname"
+          />
+          <button disabled id="join-button">Join</button>
         </form>
       </main>
     </div>
