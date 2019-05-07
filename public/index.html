@@ -12,7 +12,7 @@
     <meta name="author" content="Felipe Olivera" />
 
     <link
-      href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,900"
+      href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,900"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="sanitize.css" />
@@ -40,12 +40,18 @@
       <main class="chat-main">
         <ul class="message-list" id="messages"></ul>
         <div class="chat-form-container">
-          <div class="typing-status" id="typing-status"></div>
           <form action="" class="chat-form" id="chat-form">
-            <input autocomplete="off" class="message-input" id="message-input" />
-            <button disabled id="send-button">Send</button>
+            <input
+              autocomplete="off"
+              class="message-input"
+              id="message-input"
+              placeholder="Message"
+              spellcheck="true"
+            />
+            <button class="hidden" disabled id="send-button">Send</button>
           </form>
         </div>
+        <div class="typing-status" id="typing-status"></div>
       </main>
     </div>
 

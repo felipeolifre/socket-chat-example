@@ -12,7 +12,7 @@ button {
   cursor: pointer;
   font-weight: 700;
   height: 48px;
-  padding: 0 16px;
+  padding: 0 8px;
 }
 button:focus {
   outline: none;
@@ -24,7 +24,11 @@ input {
   border-radius: 4px;
   border: 2px solid #969696;
   height: 48px;
-  padding: 0 16px;
+  padding: 0 8px;
+}
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
 }
 
 /* Join page. */
@@ -57,10 +61,8 @@ input {
   align-items: center;
   display: flex;
   flex-direction: column;
-  /* width: 256px; */
 }
 .join-form input {
-  /* margin: 0 0 16px; */
   margin-bottom: 16px;
   width: 100%;
 }
@@ -91,7 +93,7 @@ input {
 .message {
   display: flex;
   flex-direction: column;
-  padding: 8px 16px;
+  padding: 4px 26px;
 }
 .message:hover {
   background: #eee;
@@ -99,16 +101,18 @@ input {
 .message header {
   align-items: flex-end;
   display: flex;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 .message h1 {
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: 900;
   line-height: 1;
   margin: 0 8px 0 0;
 }
 .message time {
-  color: #777;
-  font-size: 13px;
+  color: #555;
+  font-size: 12px;
+  font-weight: 300;
 }
 .message p {
   margin: 0;
@@ -116,24 +120,25 @@ input {
 .message.system p {
   color: #777;
 }
-.chat-form-container {
-  background: #000;
-  padding: 0 16px 16px;
-}
-.typing-status {
-  align-items: center;
-  color: #ccc;
-  display: flex;
-  font-size: 11px;
-  font-style: italic;
-  height: 16px;
-  letter-spacing: 0.3px;
-  line-height: 1;
-}
 .chat-form {
   display: flex;
   width: 100%;
 }
 .message-input {
   flex: 1;
+  font-size: 16px;
+  margin: 0 16px;
+}
+.message-input:focus {
+  outline: none;
+}
+.typing-status {
+  align-items: center;
+  color: #777;
+  display: flex;
+  font-size: 11px;
+  height: 20px;
+  letter-spacing: 0.3px;
+  line-height: 1;
+  margin: 0 26px;
 }
