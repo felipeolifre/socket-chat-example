@@ -36,7 +36,19 @@ const addMessageToDOM = ({ type, nickname, body, timestamp }) => {
 
 const setTypingStatus = nickname => {
   const typingStatus = document.getElementById('typing-status');
-  typingStatus.textContent = `${nickname} is typing...`;
+
+  if (typingStatus.textContent !== '') {
+    return;
+  }
+
+  const nicknameEl = document.createElement('strong');
+  const blankSpace = '\u00a0';
+  const isTypingText = document.createTextNode(`${blankSpace}is typing...`);
+
+  nicknameEl.textContent = nickname;
+
+  typingStatus.appendChild(nicknameEl);
+  typingStatus.appendChild(isTypingText);
 };
 
 const resetTypingStatus = () => {
@@ -69,6 +81,11 @@ const clearMessageInput = () => {
   messageInput.value = '';
 };
 
+const focusMessageInput = () => {
+  const messageInput = document.getElementById('message-input');
+  messageInput.focus();
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   const socket = io();
 
@@ -98,17 +115,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('join-form').addEventListener('submit', event => {
     event.preventDefault(); // Prevents page reloading.
+
     const nicknameInput = document.getElementById('nickname-input');
     user.nickname = nicknameInput.value;
     socket.emit('join', user.nickname);
-    nicknameInput.value = '';
 
+    nicknameInput.value = '';
     const joinDiv = document.getElementById('join');
     joinDiv.style.display = 'none';
+    disableJoinButton();
+
     const chatDiv = document.getElementById('chat');
     chatDiv.style.display = 'block';
-
-    disableJoinButton();
+    focusMessageInput();
   });
 
   let typingTimerId;
