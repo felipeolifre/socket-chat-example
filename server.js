@@ -28,6 +28,7 @@ io.on('connection', socket => {
       body: 'has joined.',
       timestamp: Date.now(),
     });
+    io.emit('online-users', [...users]);
   });
 
   socket.on('typing', status => {
@@ -49,15 +50,16 @@ io.on('connection', socket => {
   });
 
   socket.on('disconnect', () => {
-    console.log('user disconnected');
     const nickname = users.get(socket.id);
-    users.delete(socket.id);
     socket.to('general').emit('message', {
       type: 'system',
       nickname,
       body: 'has left.',
       timestamp: Date.now(),
     });
+    users.delete(socket.id);
+    socket.broadcast.emit('online-users', [...users]);
+    console.log('user disconnected');
   });
 });
 

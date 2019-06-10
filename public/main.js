@@ -1,4 +1,4 @@
-const user = {};
+const me = {};
 
 const addMessageToDOM = ({ type, nickname, body, timestamp }) => {
   const listItem = document.createElement('li');
@@ -8,6 +8,7 @@ const addMessageToDOM = ({ type, nickname, body, timestamp }) => {
   const time = document.createElement('time');
   const paragraph = document.createElement('p');
 
+  article.classList.add('list-item');
   article.classList.add('message');
   if (type === 'chat') {
     article.classList.add('chat');
@@ -32,6 +33,41 @@ const addMessageToDOM = ({ type, nickname, body, timestamp }) => {
   article.appendChild(paragraph);
   listItem.appendChild(article);
   document.getElementById('messages').appendChild(listItem);
+};
+
+const createUserListItem = (nickname, currentUser) => {
+  const listItem = document.createElement('li');
+  const article = document.createElement('article');
+  const paragraph = document.createElement('p');
+
+  article.classList.add('list-item');
+  article.classList.add('user');
+
+  paragraph.textContent = nickname;
+  if (currentUser) {
+    const span = document.createElement('span');
+    span.textContent = '(you)';
+    paragraph.appendChild(span);
+  }
+
+  article.appendChild(paragraph);
+  listItem.appendChild(article);
+
+  return listItem;
+};
+
+const addOnlineUsersToDOM = (me, onlineUsersButMe) => {
+  const userList = document.getElementById('users');
+  userList.innerHTML = '';
+
+  userList.appendChild(createUserListItem(me.nickname, true));
+
+  onlineUsersButMe
+    .map(({ nickname }) => nickname)
+    .sort()
+    .forEach(nickname => {
+      userList.appendChild(createUserListItem(nickname, false));
+    });
 };
 
 const setTypingStatus = nickname => {
@@ -91,6 +127,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Socket listeners.
 
+  socket.on('connect', () => {
+    me.id = socket.id;
+  });
+
+  socket.on('online-users', onlineUsers => {
+    const onlineUsersButMe = onlineUsers
+      .filter(([id]) => id !== me.id)
+      .map(([id, nickname]) => ({ id, nickname }));
+    addOnlineUsersToDOM(me, onlineUsersButMe);
+  });
+
   socket.on('message', message => {
     addMessageToDOM(message);
   });
@@ -117,8 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault(); // Prevents page reloading.
 
     const nicknameInput = document.getElementById('nickname-input');
-    user.nickname = nicknameInput.value;
-    socket.emit('join', user.nickname);
+    me.nickname = nicknameInput.value;
+    socket.emit('join', me.nickname);
 
     nicknameInput.value = '';
     const joinDiv = document.getElementById('join');
@@ -126,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     disableJoinButton();
 
     const chatDiv = document.getElementById('chat');
-    chatDiv.style.display = 'block';
+    chatDiv.style.display = 'flex';
     focusMessageInput();
   });
 
@@ -163,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const message = {
       type: 'chat',
-      nickname: user.nickname,
+      nickname: me.nickname,
       body: messageBody,
       timestamp: Date.now(),
     };
