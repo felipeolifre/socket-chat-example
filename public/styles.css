@@ -1,5 +1,21 @@
 /* Global. */
 
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+.list {
+  height: 100%;
+  list-style-type: none;
+  margin: 0;
+  overflow: auto;
+  padding: 0;
+}
+.list-item {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 26px;
+}
 body {
   font-family: 'Lato', sans-serif;
   height: 100vh;
@@ -25,10 +41,6 @@ input {
   border: 2px solid #969696;
   height: 48px;
   padding: 0 8px;
-}
-.hidden {
-  display: none !important;
-  visibility: hidden !important;
 }
 
 /* Join page. */
@@ -77,23 +89,32 @@ input {
   display: flex;
   height: 100%;
 }
+.chat-sidebar {
+  background: #303e4d;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 240px;
+}
+.user:hover {
+  background: #6698c8;
+}
+.user p {
+  color: #fff;
+  margin: 0;
+}
+.user span {
+  color: #ccc;
+  margin-left: 8px;
+}
 .chat-main {
   display: flex;
   flex-direction: column;
+  flex: 1;
   height: 100%;
 }
 .message-list {
   flex: 1;
-  height: 100%;
-  list-style-type: none;
-  margin: 0;
-  overflow: auto;
-  padding: 0;
-}
-.message {
-  display: flex;
-  flex-direction: column;
-  padding: 4px 26px;
 }
 .message:hover {
   background: #eee;
